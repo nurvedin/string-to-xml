@@ -6,6 +6,27 @@ F|name|year of birth
 P can be followed by T, A and F
 F can be followed by T och A
 
+<people>
+  <person>
+    <firstname>Carl Gustaf</firstname>
+    <lastname>Bernadotte</lastname>
+    <address>
+      <street>Drottningholms slott</street>
+      ...
+     </address>
+    <phone>
+      <mobile>0768-101801</mobile>
+      ...
+    </phone>
+    <family>
+      <name>Victoria</name>
+        <born>1977</born>
+        <address>...</address>
+     </family>
+     <family>...</family>
+  </person>
+  <person>...</person>
+</people>
 */
 
 /*
