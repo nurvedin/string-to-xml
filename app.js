@@ -1,5 +1,5 @@
 
-let input = require("./string")
+//let input = require("./string")
 /*
 console.log("")
 console.log(input.input)
@@ -7,18 +7,18 @@ console.log("")
 */
 
 /*
-let text
+let text2
 let parser
 let xmlDoc;
 
-text = "<bookstore><book>" +
+text2 = "<bookstore><book>" +
 "<title>Everyday Italian</title>" +
 "<author>Giada De Laurentiis</author>" +
 "<year>2005</year>" +
 "</book></bookstore>";
 
 parser = new DOMParser();
-xmlDoc = parser.parseFromString(text,"text/xml");
+xmlDoc = parser.parseFromString(text2,"text/xml");
 
 let x = xmlDoc.getElementsByTagName("bookstore")
 for (i = 0; i < x.length; i++) {
@@ -142,6 +142,11 @@ doc.appendChild(peopleElem)
 console.log(doc)
 */
 
+function Person(first, last) {
+  this.firstName = first;
+  this.lastName = last;
+}
+
 let text = "P|Carl Gustaf|Bernadotte"+
 "T|0768-101801|08-101801"+
 "A|Drottningholms slott|Stockholm|10001"+
@@ -153,18 +158,136 @@ let text = "P|Carl Gustaf|Bernadotte"+
 "A|1600 Pennsylvania Avenue|Washington, D.C"
 
 let splittedString = text.split(/(?=[A-Z]\|)/g)
+let person
+let firstName
+let lastName
+let fname
+let lname
+let phone 
+let mobile
+let landLine
+let mobileNum
+let landLineNum
+let address
+let street
+let city
+let zipCode
+let streetName
+let cityName
+let zipCodeNum
+let family
+let familyName
+let born
+let nameFamily
+let yearBorn
 
-//min pipe separator \|
+//console.log(splittedString[0].split(/\|/))
+//pipe \|
 
-console.log(splittedString[1])
-//for(let i = 0; i < text.length; i++) {
-  //console.log(text[i].match(/[A-Z][a-z]+/g))
-  /*
-  if(text[i] == text[i].toUpperCase() && text[i+1] == "|") {
-    console.log("YES")
+const doc = document.implementation.createDocument("", "", null)
+const people = doc.createElement("people")
+
+//create People element to be the root element
+doc.appendChild(people)
+
+//console.log(splittedString)
+
+//console.log(findDuplicates(strArray)) // All duplicates
+//console.log([...new Set(findDuplicates(strArray))]) // Unique duplicates
+
+
+for(let i = 0; i < splittedString.length; i++) {
+  //console.log(splittedString)
+
+  
+
+  if(splittedString[i].includes("P|")) {
+    //create Person xml element
+    let names = splittedString[i].split(/\|/)
+    
+    //console.log(names)
+    person = doc.createElement("person")
+    firstName = doc.createElement("firstname")
+    lastName = doc.createElement("lastname")
+    fname = doc.createTextNode(names[1])
+    lname = doc.createTextNode(names[2])
+    firstName.appendChild(fname)
+    lastName.appendChild(lname)
+    
+  } else if(splittedString[i].includes("T|")) {
+    //create phone xml element
+    
+    let number = splittedString[i].split(/\|/)
+    //console.log(number)
+    phone = doc.createElement("phone")
+    mobile = doc.createElement("mobile")
+    landLine = doc.createElement("landline")
+    mobileNum = doc.createTextNode(number[1])
+    landLineNum = doc.createTextNode(number[2])
+    mobile.appendChild(mobileNum)
+    landLine.appendChild(landLineNum)
+    phone.appendChild(mobile)
+    phone.appendChild(landLine)
+    person.appendChild(phone)
+    
+
+  }  else if(splittedString[i].includes("F|")) {
+    //console.log(splittedString[i])
+    //create family xml element
+    let familyValues = splittedString[i].split(/\|/)
+    //console.log(familyValues)
+
+    family = doc.createElement("family")
+    familyName = doc.createElement("name")
+    born = doc.createElement("born")
+    nameFamily = doc.createTextNode(familyValues[1])
+    yearBorn = doc.createTextNode(familyValues[2])
+    family.appendChild(familyName)
+    family.appendChild(born)
+    familyName.appendChild(nameFamily)
+    born.appendChild(yearBorn)
+    person.appendChild(family)
+    
+  } else if(splittedString[i].includes("A|")) {
+    //console.log(splittedString[i])
+    //create adress xml element
+    
+    let adressValues = splittedString[i].split(/\|/)
+
+    console.log(adressValues)
+
+    address = doc.createElement("address")
+    street = doc.createElement("street")
+    city = doc.createElement("city")
+    zipCode = doc.createElement("zipcode")
+    streetName = doc.createTextNode(adressValues[1])
+    cityName = doc.createTextNode(adressValues[2])
+    zipCodeNum = doc.createTextNode(adressValues[3])
+    street.appendChild(streetName)
+    city.appendChild(cityName)
+    zipCode.appendChild(zipCodeNum)
+    address.appendChild(street)
+    address.appendChild(city)
+    address.appendChild(zipCode)
+    person.appendChild(address)
+    
+    
   }
-  */
-//}
+
+  people.appendChild(person)
+  person.appendChild(firstName)
+  person.appendChild(lastName)
+  //person.appendChild(address)
+  //person.appendChild(phone)
+   
+  
+  //console.log(person.appendChild(phone))
+}
+//console.log(person.appendChild(phone))
+//person.appendChild(address)
+person.appendChild(family)
+person.appendChild(phone)
+console.log(doc)
 
 /*
 <people>
