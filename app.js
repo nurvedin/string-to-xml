@@ -57,11 +57,24 @@ function createPersonElement(name1, name2) {
 }
 */
 
+/*
+const person = {
+  person: doc.createElement("person"),
+  firstName: doc.createElement("firstname"),
+  lastName: doc.createElement("lastname"),
+  fname: "",
+  lname: ""
+}
+
+const phone = {
+  phone: "phone",
+  mobile: "mobile",
+  landline: "landline"
+}
+*/
+
 let splittedString = text.split(/(?=[A-Z]\|)/g)
 
-//pipe \|
-
-//console.log(splittedString.includes("P"))
 
 //create xmlDocument and  People element to be the root element
 const doc = document.implementation.createDocument("", "", null)
@@ -69,7 +82,18 @@ const people = doc.createElement("people")
 
 doc.appendChild(people)
 
-
+if(typeof Node.prototype.multiAppend !== "function") {
+  Node.prototype.multiAppend = (function() {
+    
+      return function() {
+          max = arguments.length;
+  
+          for (let i = 0; i < max; i++) {
+              this.appendChild(arguments[i]);
+          }
+      };
+  })();
+}
 
 for(let i = 0; i < splittedString.length; i++) {
 
@@ -116,8 +140,9 @@ for(let i = 0; i < splittedString.length; i++) {
     lname = doc.createTextNode(names[2])
     firstName.appendChild(fname)
     lastName.appendChild(lname)
-    person.appendChild(firstName)
-    person.appendChild(lastName)
+    person.multiAppend(firstName, lastName)
+    //person.appendChild(firstName)
+    //person.appendChild(lastName)
     
     
   } else if(splittedString[i].includes("T|")) {
@@ -133,8 +158,9 @@ for(let i = 0; i < splittedString.length; i++) {
     landLineNum = doc.createTextNode(number[2])
     mobile.appendChild(mobileNum)
     landLine.appendChild(landLineNum)
-    phone.appendChild(mobile)
-    phone.appendChild(landLine)
+    phone.multiAppend(mobile, landLine)
+    //phone.appendChild(mobile)
+    //phone.appendChild(landLine)
     person.appendChild(phone)
     
 
@@ -148,8 +174,9 @@ for(let i = 0; i < splittedString.length; i++) {
     born = doc.createElement("born")
     familyName = doc.createTextNode(familyValues[1])
     yearBorn = doc.createTextNode(familyValues[2])
-    family.appendChild(nameElement)
-    family.appendChild(born)
+    family.multiAppend(nameElement, born)
+    //family.appendChild(nameElement)
+    //family.appendChild(born)
     nameElement.appendChild(familyName)
     born.appendChild(yearBorn)
     person.appendChild(family)
@@ -172,15 +199,17 @@ for(let i = 0; i < splittedString.length; i++) {
       street.appendChild(streetName)
       city.appendChild(cityName)
       postalCode.appendChild(postalCodeNum)
-      address.appendChild(street)
-      address.appendChild(city)
-      address.appendChild(postalCode)
+      address.multiAppend(street, city, postalCode)
+      //address.appendChild(street)
+      //address.appendChild(city)
+      //address.appendChild(postalCode)
       person.appendChild(address)
     } else if(adressValues.length == 3) {
       street.appendChild(streetName)
       city.appendChild(cityName)
-      address.appendChild(street)
-      address.appendChild(city)
+      address.multiAppend(street, city)
+      //address.appendChild(street)
+      //address.appendChild(city)
       person.appendChild(address)
     } 
   }
