@@ -131,4 +131,27 @@ for (let i of x) {
     console.log(i);
 }
 
+
+let arr = []
+//console.log(splittedString[0].split(/\|/))
+for(let j of splittedString) {
+  
+  arr.push(j[0])
+}
+
+let k = -1
+let n = -1
+let Pindices = []
+let Findices = []
+
+while((k = arr.indexOf("P", k + 1)) !== -1 && (n = arr.indexOf("F", n + 1)) !== -1) {
+  Pindices.push(k);
+  Findices.push(n)
+}
+
+
+console.log(arr)
+console.log(Pindices)
+console.log(Findices)
+
 //document.getElementById("demo").innerHTML = xmlDoc.getElementsByTagName("bookstore")
