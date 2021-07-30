@@ -26,13 +26,19 @@ let family, nameElement, born, familyName, yearBorn
 
 let splittedString = text.split(/(?=[A-Z]\|)/g)
 
-let personArray = []
+let images = document.getElementsByTagName('person')
+
+
 
 //create xmlDocument and  People element to be the root element
 const doc = document.implementation.createDocument("", "", null)
 const people = doc.createElement("people")
 
+
+
 doc.appendChild(people)
+
+
 
 if(typeof(Node.prototype.multiAppend) !== "function") {
   Node.prototype.multiAppend = (function() {
@@ -47,24 +53,29 @@ if(typeof(Node.prototype.multiAppend) !== "function") {
 
 for(let i = 0; i < splittedString.length; i++) {
   
+  let fooP = splittedString[i].slice(/[^P]/)
+
+  //console.log(fooP)
+
   if(splittedString[i].includes("P|")) {
 
     let names = splittedString[i].split(/\|/)
-    if(names[1] !== "" && names[2] !== "") {
-      person = doc.createElement("person")
-      firstName = doc.createElement("firstname")
-      lastName = doc.createElement("lastname")
-      fname = doc.createTextNode(names[1])
-      lname = doc.createTextNode(names[2])
-      firstName.appendChild(fname)
-      lastName.appendChild(lname)
-      person.multiAppend(firstName, lastName)
+    //console.log(names)
+    //if(names[1] !== "" && names[2] !== "") {
+    person = doc.createElement("person")
+    firstName = doc.createElement("firstname")
+    lastName = doc.createElement("lastname")
+    fname = doc.createTextNode(names[1])
+    lname = doc.createTextNode(names[2])
+    firstName.appendChild(fname)
+    lastName.appendChild(lname)
+    person.multiAppend(firstName, lastName)
 
       //console.log(person.childNodes[0])
 
-    } else if(names[1] == "" || names[2] == "") {
+    /*} else if(names[1] == "" || names[2] == "") {
       person.remove()
-    }
+    }*/
     
   } else if(splittedString[i].includes("T|")) {
 
@@ -148,7 +159,11 @@ for(let i = 0; i < splittedString.length; i++) {
   //console.log(person.firstChild.firstChild)
   */
   people.appendChild(person)
-  //console.log(person)
+  
+  if(person.firstChild.textContent == "") {
+    person.firstChild.parentElement.remove()
+  }
+  //console.log(person.children)  
 }
 
 //console.log(doc.getElementsByTagName('person')[0].nodeValue)
@@ -160,5 +175,7 @@ if(person.childNodes[0].firstChild == "" || person.childNodes[1].firstChild == "
 }
 */
 //console.log(personArray[1].textContent)
+
+
 console.log(doc)
 
