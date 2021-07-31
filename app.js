@@ -9,13 +9,12 @@ const text = "P|Carl Gustaf|Bernadotte"+
 "F|Carl Philip|1979"+
 "T|0768-101802|08-101802"+
 "A|Mitt Slott|Växjö|10003"+
-"P||"+
+"P|Barack|Obama"+
 "A|1600 Pennsylvania Avenue|Washington, D.C"+
 "T|0768-101803|08-101803"+
 "P|Nurvedin|Dizdarevic"+
 "A|Växjövägen|Växjö|10004"+
-"F|Merita|1988"+
-"P|Merita|Dizdarevic"
+"F|Merita|1988"
 
 
 
@@ -35,11 +34,6 @@ const doc = document.implementation.createDocument("", "", null)
 const people = doc.createElement("people")
 
 
-
-doc.appendChild(people)
-
-
-
 if(typeof(Node.prototype.multiAppend) !== "function") {
   Node.prototype.multiAppend = (function() {
     
@@ -53,15 +47,11 @@ if(typeof(Node.prototype.multiAppend) !== "function") {
 
 for(let i = 0; i < splittedString.length; i++) {
   
-  let fooP = splittedString[i].slice(/[^P]/)
-
-  //console.log(fooP)
 
   if(splittedString[i].includes("P|")) {
 
     let names = splittedString[i].split(/\|/)
-    //console.log(names)
-    //if(names[1] !== "" && names[2] !== "") {
+    
     person = doc.createElement("person")
     firstName = doc.createElement("firstname")
     lastName = doc.createElement("lastname")
@@ -70,12 +60,6 @@ for(let i = 0; i < splittedString.length; i++) {
     firstName.appendChild(fname)
     lastName.appendChild(lname)
     person.multiAppend(firstName, lastName)
-
-      //console.log(person.childNodes[0])
-
-    /*} else if(names[1] == "" || names[2] == "") {
-      person.remove()
-    }*/
     
   } else if(splittedString[i].includes("T|")) {
 
@@ -144,38 +128,20 @@ for(let i = 0; i < splittedString.length; i++) {
     } else if(adressValues[1] == "" || adressValues[2] == "" || adressValues[3] == "") {
       address.remove()
     } 
-  } /*else if(splittedString[i][0].includes("F") && splittedString[i+1][0].includes("P")) {
-    console.log("F can NOT be followed by P")
-    person.remove()
-  }**/
+  } 
 
-  /*
-  if(person.childNodes[0].firstChild == "" || person.childNodes[1].firstChild == "") {
-    person.remove()
-    break
-  } else {
-    people.appendChild(person)
-  }
-  //console.log(person.firstChild.firstChild)
-  */
   people.appendChild(person)
-  
-  if(person.firstChild.textContent == "") {
+  console.log(person)
+
+  if(person.firstChild.textContent == "" || person.firstChild.nextSibling.textContent == "") {
     person.firstChild.parentElement.remove()
-  }
-  //console.log(person.children)  
+  } else if(splittedString[i][0].includes("F") && splittedString[i+1][0].includes("P") && splittedString[splittedString.length - 1] + 1 !== undefined) {
+    console.log("F can NOT be followed by P")
+    person.firstChild.parentNode.remove()
+    break
+  } 
 }
 
-//console.log(doc.getElementsByTagName('person')[0].nodeValue)
-//console.log(doc.getElementsByTagName("person"))
-//console.log(person.childNodes[1].firstChild)
-/*
-if(person.childNodes[0].firstChild == "" || person.childNodes[1].firstChild == "") {
-  person.remove()
-}
-*/
-//console.log(personArray[1].textContent)
-
-
+doc.appendChild(people)
 console.log(doc)
 
