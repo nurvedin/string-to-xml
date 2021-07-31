@@ -135,7 +135,7 @@ for(let i = 0; i < splittedString.length; i++) {
 
   if(person.firstChild.textContent == "" || person.firstChild.nextSibling.textContent == "") {
     person.firstChild.parentElement.remove()
-  } else if(splittedString[i][0].includes("F") && splittedString[i+1][0].includes("P") && splittedString[splittedString.length - 1] + 1 !== undefined) {
+  } else if(splittedString[i][0].includes("F") && splittedString[i+1][0].includes("P") && splittedString[splittedString.length - 1] !== undefined) {
     console.log("F can NOT be followed by P")
     person.firstChild.parentNode.remove()
     break
